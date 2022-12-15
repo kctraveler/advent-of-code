@@ -19,20 +19,38 @@ def playGame(opp, player):
 
 def convertInput(input):
     input = input.lower()
-    if input == 'a' or input == 'x':
+    if input == 'a' :
         return "rock"
-    elif input == 'b' or input == 'y':
+    elif input == 'b' :
         return 'paper'
-    elif input == 'c' or input == 'z':
+    elif input == 'c' :
         return 'scissors'
     else:
         raise Exception("Invalid input")
-    
+def convertPlayerMove(opp, input):  
+    input = input.lower()
+    if input == 'x':
+        if opp == 'rock':
+            return 'scissors'
+        elif opp == 'paper':
+            return 'rock'
+        elif opp == 'scissors':
+            return 'paper'
+    elif input == 'y':
+        return opp
+    elif input == 'z':
+        if opp == 'rock':
+            return 'paper'
+        elif opp == 'paper':
+            return 'scissors'
+        elif opp == 'scissors':
+            return 'rock'
+        
 with open("./advent-of-code/day2/input.txt") as f:
     finalScore = 0
     for game in f:
         opp = convertInput(game[0])
-        player = convertInput(game[2])
+        player = convertPlayerMove(opp,game[2])
         finalScore += playGame(opp, player)
         
 print("The final score was %d" % (finalScore))
