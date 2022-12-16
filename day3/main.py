@@ -8,11 +8,9 @@ def scoreResult(result):
 
 with open('./advent-of-code/day3/input.txt') as f:
     finalResult = 0
-    for line in f:
-        line = line.rstrip()
-        # convert each half of the string to a set. Find the interestion of the two sets
-        compartmentOne , compartmentTwo = set(line[:len(line)//2]) , set(line[len(line)//2:])
-        sharedItem = compartmentOne.intersection(compartmentTwo).pop() # we know there is only one result
-        finalResult += scoreResult(sharedItem)
+    lines = f.readlines()
+    for i in range(0, len(lines), 3):
+        result = set(lines[i].rstrip()) & set(lines[i+1].rstrip()) & set(lines[i+2].rstrip())
+        finalResult += scoreResult(result.pop())
 print('The final result value is %d' % finalResult)
   
