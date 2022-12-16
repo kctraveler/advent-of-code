@@ -19,7 +19,7 @@ def generateWall(cave, wall):
     while i < len(wall) :
         
         
-        i++
+        i += 1
         
         
         
