@@ -21,20 +21,23 @@ def parseCrates(crates):
         height+=1
     return stacks
 
-#Move one crate at a time
-def moveCrate(source, dest, stacks):
+#Update to move multiple crates at once
+def moveCrate(source, dest, stacks, numCrates=1):
     #subtract 1 to find the index for requested move
-    source, dest = int(source), int(dest)
+    source, dest, numCrates = int(source), int(dest), int(numCrates)
     source-=1
     dest-=1
-    stacks[dest].append(stacks[source].pop())
+    toMove = list()
+    for i in range(numCrates):
+        toMove.append(stacks[source].pop())
+    toMove.reverse()
+    stacks[dest].extend(toMove)
  
 #interpret a complete instruction calls moveCrate   
 def doInstruction(instruction, stacks):
     steps = re.sub("[^0-9]+", "!", instruction).split("!")
     steps.pop(0)
-    for i in range(int(steps[0])):
-        moveCrate(steps[1], steps[2], stacks)
+    moveCrate(steps[1], steps[2], stacks, steps[0])
   
 #Generate the result    
 def printTopCrates(stacks):
