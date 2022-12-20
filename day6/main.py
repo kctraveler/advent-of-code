@@ -8,16 +8,15 @@ def identifyFrame(input, frameSize=4):
                 frame.remove(frame[0])
             frame.append(input[i])
             i+=1
-        elif len(frame) < 4: # frame too short, add the element
+        elif len(frame) < frameSize - 1 : # frame too short, add the element
             frame.append(input[i])
             i+=1
         else: #frame found return the index
-            return i
-        print(frame)
+            return i + 1
 
 def main():
     with open("./advent-of-code/day6/input.txt") as f:
         input = f.read()
-    print(identifyFrame(input))
+    print(identifyFrame(input, 14))
     
 main()
