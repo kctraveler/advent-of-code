@@ -22,7 +22,7 @@ def parseCrates(crates):
     return stacks
 
 #Update to move multiple crates at once
-def moveCrate(source, dest, stacks, numCrates=1):
+def moveCrate(source, dest, stacks, numCrates='1'):
     #subtract 1 to find the index for requested move
     source, dest, numCrates = int(source), int(dest), int(numCrates)
     source-=1
