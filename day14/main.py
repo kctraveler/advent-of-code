@@ -16,6 +16,7 @@ def createCave(input):
     return cave;
 
 def generateWall(cave, wall):
+    i = 0
     while i < len(wall) :
         
         
