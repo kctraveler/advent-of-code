@@ -41,6 +41,13 @@ class Directory(FileSystem):
         for item in self.contents:
             if type(item) == Directory:
                 item.get_dirs_under(max_size, result)
+                
+    def get_dirs_over(self, min_size, result):
+        if self.getSize() >= min_size:
+            result.append(self)
+        for item in self.contents:
+            if type(item) == Directory:
+                item.get_dirs_over(min_size, result)
     
     # creates a string representation of the tree with a csv friendly format for troublshooting
     def format_tree(self, level = 0):
@@ -120,6 +127,8 @@ def main():
     fs_builder = FileSystemBuilder()
     directory = fs_builder.run("./advent-of-code/day7/input.txt")
     print(directory.format_tree())
+    
+    #PART ONE
     small_dirs = list()
     MAX_SIZE = 100000 #determined from problem parameters
     directory.get_dirs_under(MAX_SIZE, small_dirs)
@@ -128,5 +137,23 @@ def main():
         size += dir.getSize()
         print(dir.getName(), dir.getSize())
     print("The total size of the %d directorys under 100,000 is %d" % (len(small_dirs), size))
+    
+    #PART TWO
+    FS_CAPACITY = 70000000
+    UPDATE_SIZE = 30000000
+    free_space = FS_CAPACITY - directory.getSize()
+    min_remove_size = UPDATE_SIZE - free_space
+    large_dirs: list[Directory] = list() 
+    directory.get_dirs_over(min_remove_size, large_dirs)
+    print(len(large_dirs))
+    smallest_possible_dir: Directory = large_dirs[0]
+    smallest_possible_dir_size = smallest_possible_dir.getSize()
+    for dir in large_dirs:
+        size = dir.getSize()
+        if size < smallest_possible_dir_size:
+            smallest_possible_dir_size = size
+            smallest_possible_dir = dir
+    print("DIR %s with size %d is the smallest directory to remove for the update" % 
+          (smallest_possible_dir.getName(), smallest_possible_dir_size))
 
 main()
